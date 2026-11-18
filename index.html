@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Empreinte 2050 — Carte</title>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Logos en bas à gauche -->
+    <div class="logos-bas-gauche">
+      <a
+        class="logo-lien"
+        href="https://www.pcf.fr/commission_ecologie"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Commission Écologie du PCF"
+      >
+        <img
+          class="logo-pcf"
+          src="/images/logo.jpeg"
+          alt="PCF — Commission Écologie"
+          width="64"
+          height="64"
+        />
+      </a>
+      <a
+        class="logo-lien"
+        href="https://revue-progressistes.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Revue Progressistes"
+      >
+        <img
+          class="logo-progressistes"
+          src="/images/progressistes.webp"
+          alt="Revue Progressistes"
+          width="64"
+          height="64"
+        />
+      </a>
+    </div>
+
+    <!-- Menu de filtres -->
+    <div id="menu" class="menu" role="group" aria-label="Filtres des événements">
+      <div class="menu-entete">
+        <h1 class="menu-titre">
+          Événements organisés autour du Plan Climat
+          <span class="menu-titre-accent">Empreinte 2050</span>
+        </h1>
+        <p class="menu-sous-titre">
+          Version actualisée —
+          <span class="menu-mois-fort">décembre 2026</span>
+        </p>
+      </div>
+
+      <div class="menu-separateur"></div>
+
+      <div class="menu-champ">
+        <span class="menu-label" id="menu-periode-label">Période</span>
+        <div class="menu-segmente" role="group" aria-labelledby="menu-periode-label">
+          <button type="button" data-periode="avenir" class="est-actif" aria-pressed="true">
+            À venir
+          </button>
+          <button type="button" data-periode="tous" aria-pressed="false">Tous</button>
+        </div>
+      </div>
+
+      <div class="menu-champ">
+        <label class="menu-label" for="filtre-type">Type d'événement</label>
+        <select id="filtre-type">
+          <option value="">Tous les événements</option>
+        </select>
+      </div>
+
+      <p id="menu-compteur" class="menu-compteur" role="status" aria-live="polite">
+        Chargement des événements…
+      </p>
+
+      <button
+        type="button"
+        id="ouvrir-ajout"
+        class="menu-bouton"
+      >
+        <svg
+          class="menu-bouton-icone"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        Ajouter un événement
+      </button>
+    </div>
+
+    <!-- Bouton d'information (remplace le contrôle d'attribution MapLibre) -->
+    <button
+      id="a-propos-ctrl"
+      type="button"
+      title="À propos du Plan Climat Empreinte 2050"
+      aria-label="À propos du Plan Climat Empreinte 2050"
+      aria-haspopup="dialog"
+    >
+      i
+    </button>
+
+    <!-- Panneau latéral -->
+    <dialog id="a-propos" class="a-propos" aria-labelledby="a-propos-titre">
+      <button type="button" class="a-propos-fermer" aria-label="Fermer le panneau">
+        ×
+      </button>
+
+      <div class="a-propos-corps">
+        <h2 id="a-propos-titre" class="a-propos-titre-cache">Plan Climat Empreinte 2050</h2>
+        <img
+          class="a-propos-visuel"
+          src="/images/empreinte-visuel.png"
+          alt="Empreinte 2050 — Plan climat pour la France"
+          width="362"
+          height="360"
+        />
+
+        <p class="a-propos-intro">
+          Le <strong>Plan Climat Empreinte 2050</strong> est la démarche du PCF
+          pour répondre à l’urgence climatique et construire une France neutre
+          en carbone à l’horizon 2050.
+        </p>
+
+        <div class="a-propos-stats">
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">100+</span>
+            <span class="a-propos-stat-libelle">réunions publiques</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2050</span>
+            <span class="a-propos-stat-libelle">neutralité carbone</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">V2</span>
+            <span class="a-propos-stat-libelle">décembre 2026</span>
+          </div>
+        </div>
+
+        <a
+          class="a-propos-action a-propos-action-secondaire"
+          href="https://www.pcf.fr/plan_climat_du_pcf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Découvrir le Plan Climat sur le site du PCF
+          <svg
+            class="a-propos-action-icone"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M7 17 17 7" />
+            <path d="M7 7h10v10" />
+          </svg>
+        </a>
+
+        <section>
+          <h3>Un constat</h3>
+          <p>
+            Le réchauffement climatique nous impose de sortir des énergies
+            fossiles. Pour y parvenir, il faut doubler la production
+            d’électricité et atteindre une empreinte carbone nulle en 2050.
+          </p>
+        </section>
+
+        <section>
+          <h3>La démarche</h3>
+          <ol class="a-propos-frise">
+            <li>
+              <span class="a-propos-frise-date">6 novembre 2023</span>
+              <p>Publication de la V1 du Plan Climat.</p>
+            </li>
+            <li>
+              <span class="a-propos-frise-date">2023 — 2026</span>
+              <p>
+                Phase de consultations et de réunions publiques, avec plus de
+                100 réunions publiques organisées.
+              </p>
+            </li>
+            <li>
+              <span class="a-propos-frise-date">14 décembre 2026</span>
+              <p>Publication de la V2, version actualisée du Plan Climat.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Liens utiles</h3>
+          <ul class="a-propos-liens">
+            <li>
+              <a href="https://www.pcf.fr/commission_ecologie" target="_blank" rel="noopener noreferrer">
+                Commission Écologie du PCF
+              </a>
+            </li>
+            <li>
+              <a href="https://revue-progressistes.org/" target="_blank" rel="noopener noreferrer">
+                Revue Progressistes
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="a-propos-credits">
+          <h3>Crédits</h3>
+          <p>
+            Réalisation : Nicolas Lambert, 2026 —
+            <a
+              href="https://github.com/neocarto/empreinte2050"
+              target="_blank"
+              rel="noopener noreferrer"
+              >code source</a
+            >.<br />
+            Fond de carte : ©
+            <a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer"
+              >OpenFreeMap</a
+            >
+            /
+            <a href="https://openmaptiles.org/" target="_blank" rel="noopener noreferrer"
+              >OpenMapTiles</a
+            >
+            /
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+              >OpenStreetMap</a
+            >.
+          </p>
+        </section>
+      </div>
+    </dialog>
+
+    <!-- Panneau d'ajout d'événement -->
+    <dialog id="ajout-evenement" class="a-propos" aria-labelledby="ajout-titre">
+      <button type="button" class="a-propos-fermer" aria-label="Fermer le panneau">
+        ×
+      </button>
+
+      <div class="a-propos-corps">
+        <h2 id="ajout-titre" class="a-propos-titre-cache">Ajouter un événement</h2>
+
+        <p class="a-propos-intro">
+          Proposez un événement autour du Plan Climat. Le formulaire prépare un
+          courriel à envoyer à l’équipe.
+        </p>
+
+        <form id="form-ajout" class="formulaire-ajout" novalidate>
+          <div class="champ">
+            <label for="champ-titre">Titre de l’événement *</label>
+            <input id="champ-titre" name="titre" type="text" required />
+          </div>
+
+          <div class="champ">
+            <label for="champ-type">Type d’événement</label>
+            <input id="champ-type" name="type" type="text" list="types-existants" />
+            <datalist id="types-existants"></datalist>
+          </div>
+
+          <div class="champ-groupe">
+            <div class="champ">
+              <label for="champ-date">Date *</label>
+              <input id="champ-date" name="date" type="date" required />
+            </div>
+            <div class="champ">
+              <label for="champ-heure">Heure</label>
+              <input id="champ-heure" name="heure" type="time" />
+            </div>
+          </div>
+
+          <div class="champ">
+            <label for="champ-lieu">Lieu</label>
+            <input id="champ-lieu" name="lieu" type="text" />
+          </div>
+
+          <div class="champ">
+            <label for="champ-localisation">Localisation (latitude, longitude)</label>
+            <input
+              id="champ-localisation"
+              name="localisation"
+              type="text"
+              placeholder="48.8779, 2.3720"
+            />
+          </div>
+
+          <div class="champ-groupe">
+            <div class="champ champ-case">
+              <label for="champ-presentiel">
+                <input id="champ-presentiel" name="presentiel" type="checkbox" />
+                Présentiel
+              </label>
+            </div>
+            <div class="champ champ-case">
+              <label for="champ-distanciel">
+                <input id="champ-distanciel" name="distanciel" type="checkbox" />
+                Distanciel
+              </label>
+            </div>
+          </div>
+
+          <div class="champ">
+            <label for="champ-lien-distanciel">Lien distanciel</label>
+            <input id="champ-lien-distanciel" name="lien_distanciel" type="url" />
+          </div>
+
+          <div class="champ champ-case">
+            <label for="champ-inscription-obligatoire">
+              <input
+                id="champ-inscription-obligatoire"
+                name="inscription_obloigatoire"
+                type="checkbox"
+              />
+              Inscription obligatoire
+            </label>
+          </div>
+
+          <div class="champ">
+            <label for="champ-inscription">Contact / inscription</label>
+            <input id="champ-inscription" name="inscription" type="text" />
+          </div>
+
+          <div class="champ">
+            <label for="champ-description">Précisions</label>
+            <textarea id="champ-description" name="description" rows="3"></textarea>
+          </div>
+
+          <div class="formulaire-actions">
+            <button type="submit" class="a-propos-action">Envoyer</button>
+            <button
+              type="button"
+              id="annuler-ajout"
+              class="a-propos-action a-propos-action-secondaire"
+            >
+              Annuler
+            </button>
+          </div>
+        </form>
+
+        <p id="ajout-message" class="ajout-message" hidden></p>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
