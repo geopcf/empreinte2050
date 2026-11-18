@@ -1,22 +1,12 @@
 import { Marker, Popup } from 'maplibre-gl'
 import { csvParse } from 'd3-dsv'
 
-// Petites icônes SVG (style Lucide, licence ISC)
+// Icônes SVG (style Lucide, licence ISC)
 const ICONES = {
-  calendrier:
-    '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
-  horloge: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
   epingle:
     '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
-  etiquette:
-    '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
-  courriel:
-    '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
-  visio:
-    '<path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
   presentiel:
     '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  lien: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
 }
 
 function icone(nom) {
@@ -40,197 +30,55 @@ function estEmail(valeur) {
   return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(valeur).trim())
 }
 
-function capitaliser(texte) {
-  const valeur = String(texte)
-  return valeur.charAt(0).toUpperCase() + valeur.slice(1)
+function formaterLieu(lieu) {
+  return String(lieu ?? '')
+    .split(/[·.]/)
+    .map((partie) => partie.trim())
+    .filter(Boolean)
+    .join(' · ')
 }
 
-/**
- * Formate une date ISO (AAAA-MM-JJ) en français : « Lundi 14 décembre 2026 ».
- * Toute autre valeur est renvoyée telle quelle.
- */
-export function formaterDate(valeur) {
-  const correspondance = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(valeur ?? '').trim())
-  if (!correspondance) return String(valeur ?? '')
-
-  const [, annee, mois, jour] = correspondance
-  const date = new Date(Number(annee), Number(mois) - 1, Number(jour))
-
-  return capitaliser(
-    new Intl.DateTimeFormat('fr-FR', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }).format(date)
-  )
-}
-
-/**
- * Formate une heure ISO (HH:MM) à la française : « 18 h 30 ».
- * Accepte aussi « 18:30 », « 18h30 » ou « 18 h 30 ».
- */
-export function formaterHeure(valeur) {
-  const correspondance = /^(\d{1,2})\s*(?:[:hH]\s*(\d{2}))?/.exec(
-    String(valeur ?? '').trim()
-  )
-  if (!correspondance) return String(valeur ?? '')
-
-  const heures = correspondance[1].padStart(2, '0')
-  const minutes = correspondance[2]
-
-  return !minutes || minutes === '00'
-    ? `${heures} h`
-    : `${heures} h ${minutes}`
+function contactEnHtml(contact) {
+  if (!contact) return 'non communiqué'
+  if (estEmail(contact)) {
+    return `<a href="mailto:${echapper(contact)}">${echapper(contact)}</a>`
+  }
+  if (estUrl(contact)) {
+    return `<a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${echapper(contact)}</a>`
+  }
+  return echapper(contact)
 }
 
 function creerHtmlPopup(evenement) {
-  const { type, lieu, presentiel, distanciel, titre } = evenement
-
-  const contact = String(
-    evenement.inscription ?? evenement.contact ?? ''
-  ).trim()
-  const inscriptionObligatoire = String(
-    evenement.inscription_obloigatoire ??
-      evenement.inscription_obligatoire ??
-      ''
-  ).trim()
-  const contactObligatoire = /^(oui|yes|true|1)$/i.test(inscriptionObligatoire)
-  const precisions = String(
-    evenement['précisions'] ?? evenement.precisions ?? ''
-  ).trim()
-
+  const { lieu, titre } = evenement
+  const contact = String(evenement.contact ?? '').trim()
+  const precisions = String(evenement['précisions'] ?? evenement.precisions ?? '').trim()
   const titreEvenement = String(titre ?? '').trim()
 
   // Cas particulier : présentation du plan climat
   if (titreEvenement === 'Présentation du plan climat') {
-    const lieuFormate = String(lieu ?? '')
-      .split(/[·.]/)
-      .map((partie) => partie.trim())
-      .filter(Boolean)
-      .join(' · ') || 'adresse non communiquée'
-    const presence = precisions || 'En présence de Fabien Roussel, des rédacteurs du texte, de scientifiques et de syndicalistes.'
-    const organisateur = String(evenement.organisateur ?? '').trim()
+    const adresse = formaterLieu(lieu) || 'adresse non communiquée'
+    const email = echapper(contact || 'contact@ecologie.pcf.fr')
     return `
       <div class="popup-evenement">
         <h3 class="popup-titre" style="color: var(--accent)">Présentation en présentiel du plan climat Empreinte 2050</h3>
         <hr class="popup-separateur">
-        <p class="popup-sous-titre">${icone('epingle')}${echapper(lieuFormate)}</p>
-        <ul class="popup-details"><li>${icone('presentiel')}<span><a href="mailto:${echapper(contact || 'contact@ecologie.pcf.fr')}">${echapper(contact || 'contact@ecologie.pcf.fr')}</a> <span class="popup-inscription">(inscription obligatoire)</span></span></li></ul>
+        <p class="popup-sous-titre">${icone('epingle')}${echapper(adresse)}</p>
+        <ul class="popup-details"><li>${icone('presentiel')}<span><a href="mailto:${email}">${email}</a> <span class="popup-inscription">(inscription obligatoire)</span></span></li></ul>
       </div>
     `
   }
 
-  let nomLieu = titreEvenement
-  let complements = []
-
-  if (nomLieu) {
-    complements = String(lieu ?? '')
-      .split(/[·.]/)
-      .map((partie) => partie.trim())
-      .filter(Boolean)
-    if (!complements.length) complements = ['adresse non communiquée']
-  } else {
-    const segments = String(lieu ?? '')
-      .split(/[·.]/)
-      .map((partie) => partie.trim())
-      .filter(Boolean)
-    nomLieu = segments[0] || 'adresse non communiquée'
-    complements = segments.slice(1)
-    if (!segments.length) complements = ['adresse non communiquée']
-  }
-
-  // Pour les écoutes, le titre devient l'organisateur (pas « Ecoute collective »)
-  const organisateurGlobal = String(evenement.organisateur ?? '').trim()
-  if (organisateurGlobal) {
-    nomLieu = organisateurGlobal
-  } else if (nomLieu === 'Ecoute collective') {
-    nomLieu = ''
-  }
-
-  const lignes = []
-
-  if (evenement.date) {
-    lignes.push(
-      `<li>${icone('calendrier')}<span>${echapper(formaterDate(evenement.date))}</span></li>`
-    )
-  }
-
-  if (evenement.heure) {
-    lignes.push(
-      `<li>${icone('horloge')}<span>${echapper(formaterHeure(evenement.heure))}</span></li>`
-    )
-  }
-
-  // Mention de contact / inscription sous forme de lien
-  let mentionInscription = ''
-  if (contact) {
-    const libelle = contactObligatoire ? 'inscription obligatoire' : ''
-    if (estEmail(contact)) {
-      mentionInscription = libelle
-        ? `${libelle} : <a href="mailto:${echapper(contact)}">${echapper(contact)}</a>`
-        : `<a href="mailto:${echapper(contact)}">${echapper(contact)}</a>`
-    } else if (estUrl(contact)) {
-      mentionInscription = libelle
-        ? `${libelle} : <a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${echapper(contact)}</a>`
-        : `<a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${echapper(contact)}</a>`
-    } else {
-      mentionInscription = libelle
-        ? `${libelle} : ${echapper(contact)}`
-        : echapper(contact)
-    }
-  }
-
-  const modePresentiel = String(presentiel ?? '').trim()
-  if (modePresentiel && modePresentiel.toLowerCase() !== 'non') {
-    const libelle =
-      modePresentiel.toLowerCase() === 'oui' ? 'Présentiel' : capitaliser(modePresentiel)
-    const suffixe =
-      mentionInscription ? ` <span class="popup-inscription">(${mentionInscription})</span>` : ''
-    lignes.push(
-      `<li>${icone('presentiel')}<span>${echapper(libelle)}${suffixe}</span></li>`
-    )
-  } else if (mentionInscription) {
-    // Pas de mode présentiel : on affiche la mention seule
-    lignes.push(`<li>${icone('presentiel')}<span>${mentionInscription}</span></li>`)
-  } else {
-    lignes.push(`<li>${icone('presentiel')}<span>non communiqué</span></li>`)
-  }
-
-  const distancielBrut = String(distanciel ?? '').trim()
-  const lienDistanciel = String(
-    evenement.lien_distanciel ?? evenement.lienDistanciel ?? ''
-  ).trim()
-  const distancielActif =
-    distancielBrut &&
-    distancielBrut.toLowerCase() !== 'non' &&
-    distancielBrut.toLowerCase() !== 'false'
-
-  if (distancielActif) {
-    const url = lienDistanciel || (estUrl(distancielBrut) ? distancielBrut : '')
-    lignes.push(
-      url
-        ? `<li>${icone('visio')}<a href="${echapper(url)}" target="_blank" rel="noopener noreferrer">Participer en distanciel</a></li>`
-        : `<li>${icone('visio')}<span>${echapper(distancielBrut)}</span></li>`
-    )
-  }
+  // Écoutes collectives : le titre est l'organisateur
+  const organisateur = String(evenement.organisateur ?? '').trim()
+  const nomLieu = organisateur || (titreEvenement === 'Ecoute collective' ? '' : titreEvenement)
+  const adresse = formaterLieu(lieu) || 'adresse non communiquée'
 
   return `
     <div class="popup-evenement">
-      ${
-        type
-          ? `<span class="popup-type">${icone('etiquette')}${echapper(type)}</span>`
-          : ''
-      }
       ${nomLieu ? `<h3 class="popup-titre" style="color: var(--accent)">${echapper(nomLieu)}</h3><hr class="popup-separateur">` : ''}
-      ${
-        complements.length
-          ? `<p class="popup-sous-titre">${icone('epingle')}${echapper(
-              complements.join(' · ')
-            )}</p>`
-          : ''
-      }
-      ${lignes.length ? `<ul class="popup-details">${lignes.join('')}</ul>` : ''}
+      <p class="popup-sous-titre">${icone('epingle')}${echapper(adresse)}</p>
+      <ul class="popup-details"><li>${icone('presentiel')}<span>${contactEnHtml(contact)}</span></li></ul>
       ${
         precisions
           ? `<p class="popup-precisions">${echapper(precisions).replaceAll('\\n', '<br>')}</p>`
@@ -260,24 +108,18 @@ function parserEvenement(ligne) {
     return null
   }
 
-  // Adapte l'ancien modèle (titre/type/lieu) au nouveau CSV :
-  // la colonne `type` sert de titre, la colonne `adresse` de lieu.
+  // La colonne `type` du CSV sert de titre, `adresse` de lieu.
   const titre = String(donnees.type ?? '').trim()
   const lieu = String(donnees.adresse ?? donnees.lieu ?? '').trim()
 
-  return { ...donnees, latitude, longitude, titre, type: '', lieu }
+  return { ...donnees, latitude, longitude, titre, lieu }
 }
 
 let popupActif = null
 
-export function fermerPopup() {
-  popupActif?.remove()
-  popupActif = null
-}
-
 /**
  * Charge public/data/data.csv et affiche une épingle par événement.
- * Retourne la liste { evenement, marker } pour pouvoir la filtrer ensuite.
+ * Retourne la liste { evenement, marker }.
  */
 export async function afficherEvenements(map, url = '/data/data.csv') {
   const reponse = await fetch(url)
@@ -296,7 +138,7 @@ export async function afficherEvenements(map, url = '/data/data.csv') {
     element.className = 'pin'
     element.setAttribute('role', 'button')
     element.tabIndex = 0
-    element.title = [evenement.type, evenement.titre || evenement.lieu].filter(Boolean).join(' — ')
+    element.title = evenement.titre || evenement.lieu || 'Événement'
 
     const image = document.createElement('img')
     image.src = '/images/pin.svg'

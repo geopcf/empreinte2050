@@ -24,13 +24,13 @@ function estMobile() {
   return window.innerWidth <= 640
 }
 
-// Sur mobile, on décale le centre vers le sud et on dézoome pour que la France
-// s'affiche sous le menu de filtres (en haut à gauche).
+// Sur mobile, on décale le centre et on dézoome pour que la France
+// s'affiche sous le menu en haut à gauche.
 function parametresVue() {
   if (estMobile()) {
     return { center: [2.2137, 51.5], zoom: 4.0 }
   }
-  return { center: FRANCE_CENTER, zoom: 5.2 }
+  return { center: [0.8, FRANCE_CENTER[1]], zoom: 5.2 }
 }
 
 const vueInitiale = parametresVue()

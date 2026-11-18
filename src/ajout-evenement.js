@@ -1,5 +1,3 @@
-import { csvParse } from 'd3-dsv'
-
 const dialog = document.getElementById('ajout-evenement')
 const form = document.getElementById('form-ajout')
 const message = document.getElementById('ajout-message')
@@ -25,35 +23,6 @@ boutonFermer?.addEventListener('click', fermer)
 dialog?.addEventListener('click', (event) => {
   if (event.target === dialog) fermer()
 })
-
-// Alimente la liste des types existants à partir du CSV
-async function chargerTypes() {
-  const datalist = document.getElementById('types-existants')
-  if (!datalist) return
-
-  try {
-    const reponse = await fetch('/data/data.csv')
-    if (!reponse.ok) return
-    const evenements = csvParse(await reponse.text())
-    const types = [
-      ...new Set(
-        evenements
-          .map((ligne) => String(ligne.type ?? ligne.Type ?? '').trim())
-          .filter(Boolean)
-      ),
-    ]
-
-    types.forEach((type) => {
-      const option = document.createElement('option')
-      option.value = type
-      datalist.appendChild(option)
-    })
-  } catch {
-    // silencieux
-  }
-}
-
-chargerTypes()
 
 function construireMail(donnees) {
   const sujet = "[empreinte 2050] ajouter d'une écoute collective"

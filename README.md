@@ -27,27 +27,20 @@ index.html          # page unique + bouton « i » et panneau À propos
 src/main.js         # création de la carte + helper de chargement
 src/a-propos.js     # ouverture / fermeture du panneau latéral
 src/evenements.js   # lecture du CSV, épingles et infobulles
-src/filtres.js      # menu de filtres (période + type)
 src/style.css       # styles (carte, bouton, panneau, épingles, popups)
 public/data/        # vos données (data.csv, GeoJSON…)
 public/images/      # images (pin.svg…)
 ```
 
-## Filtres
+## Formulaire « Ajouter une écoute collective »
 
-Le menu en haut à gauche permet de filtrer les épingles :
+Le bouton du menu ouvre un formulaire qui prépare un courriel prérempli :
 
-- **Période** : « À venir » (par défaut, inclut les événements du jour) ou « Tous ».
-  La comparaison se fait sur la colonne `date` au format ISO.
-- **Type** : liste déroulante alimentée automatiquement par les valeurs de la
-  colonne `type`.
+- **Destinataire** : `contact@ecologie.pcf.fr`
+- **Copie** : `section.briesenart@seineetmarne.pcf.fr`
+- **Objet** : `[empreinte 2050] ajouter d'une écoute collective`
 
-Le compteur sous les filtres indique le nombre d'événements affichés. Une
-infobulle ouverte est refermée dès qu'un filtre change.
-
-Le bouton **« Ajouter un événement »** ouvre un e-mail prérempli vers
-`section.briesenart@seineetmarne.pcf.fr` avec l'objet
-`[empreinte 2050] ajouter un évènement`.
+Le message contient les champs saisis (section/fédération, lieu, contact, précisions).
 
 ## Événements (`public/data/data.csv`)
 
@@ -58,21 +51,14 @@ Colonnes attendues :
 
 | Colonne | Exemple | Remarque |
 |---|---|---|
-| `date` | `2026-12-14` | **format ISO** `AAAA-MM-JJ` |
-| `heure` | `18:30` | **format ISO** `HH:MM` (24 h) |
+| `type` | `Ecoute collective` | utilisé comme titre de l'événement |
 | `localisation` | `"48.8779, 2.3720"` | latitude, longitude séparées par une virgule |
-| `type` | `Présentation` | affiché en pastille |
-| `lieu` | `Sous la Coupole · Siège national du PCF · Paris` | le premier segment sert de titre, les suivants de sous-titre |
-| `inscription_obloigatoire` | `oui` | indique si l'inscription est obligatoire |
-| `inscription` | `contact@exemple.fr` | e-mail (`mailto:`) ou URL (affiché dans l'infobulle) |
-| `presentiel` | `oui`/`non` | affiche « Présentiel » si `oui` |
-| `distanciel` | `oui`/`non` | affiche le lien distanciel si `oui` |
-| `lien_distanciel` | `https://…` | URL de participation en distanciel |
+| `adresse` | `Sous la Coupole · Paris` | affichée avec l'icône épingle |
+| `organisateur` | `Section PCF Brie Sénart` | sert de titre pour les écoutes |
+| `contact` | `contact@exemple.fr` | e-mail cliquable (`mailto:`) |
 | `précisions` | `texte libre` | affichées en bas de l'infobulle |
 
-Les dates et heures sont stockées en ISO dans le fichier, puis mises en forme en
-français dans les infobulles (`Lundi 14 décembre 2026`, `18 h 30`). Ce format
-évite toute ambiguïté et permet de trier les événements facilement.
+Un cas particulier est prévu pour la présentation du plan climat.
 
 ## Panneau « À propos »
 

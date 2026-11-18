@@ -101,141 +101,6 @@ body {
   color: var(--texte);
   font-size: 13px;
 }
-
-.menu-champ {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.menu-entete {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.menu-titre {
-  margin: 0;
-  color: #8a938e;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.1px;
-  text-transform: uppercase;
-}
-
-.menu-titre-accent {
-  color: var(--accent);
-  font-weight: 800;
-}
-
-.menu-sous-titre {
-  margin: 0;
-  color: var(--texte-doux);
-  font-size: 12px;
-  line-height: 1.3;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.menu-mois-fort {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  box-shadow: 0 1px 3px rgb(46 125 91 / 35%);
-}
-
-.menu-separateur {
-  height: 1px;
-  margin: 2px 0;
-  background: rgb(0 0 0 / 9%);
-}
-
-.menu-label {
-  color: var(--texte-doux);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-}
-
-.menu-segmente {
-  display: flex;
-  gap: 2px;
-  padding: 2px;
-  border-radius: 7px;
-  background: #f1f4f2;
-}
-
-.menu-segmente button {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 5px 8px;
-
-  border: 0;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--texte-doux);
-
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-}
-
-.menu-segmente button:hover {
-  color: var(--accent);
-}
-
-.menu-segmente button.est-actif {
-  background: #fff;
-  color: #226447;
-  font-weight: 600;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
-}
-
-.menu-segmente button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-#filtre-type {
-  width: 100%;
-  height: 32px;
-  padding: 0 8px;
-
-  border: 1px solid rgb(0 0 0 / 15%);
-  border-radius: 6px;
-  background: #fff;
-  color: var(--texte);
-
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-#filtre-type:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
-}
-
-.menu-compteur {
-  margin: 0;
-  color: var(--texte-doux);
-  font-size: 11.5px;
-  line-height: 1.35;
-}
-
 .menu-bouton {
   display: flex;
   align-items: center;
@@ -318,45 +183,6 @@ body {
   line-height: 1.2;
   letter-spacing: 0.2px;
 }
-
-.menu-date-grand {
-  margin: 6px 0 0;
-  color: var(--accent);
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.menu-ecoutes-grand {
-  margin: 4px 0 0;
-  color: var(--texte);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.menu-annonce-petit {
-  margin: 4px 0 0;
-  color: var(--texte-doux);
-  font-size: 12px;
-  line-height: 1.35;
-  font-style: italic;
-}
-
-.menu-annonce {
-  margin: 0;
-  color: var(--texte);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.menu-adresse {
-  margin: 4px 0 0;
-  color: var(--texte-doux);
-  font-size: 12.5px;
-  line-height: 1.35;
-}
-
 .menu-compte-a-rebours {
   display: flex;
   align-items: baseline;
@@ -381,25 +207,6 @@ body {
   font-weight: 600;
   opacity: 0.8;
 }
-
-.menu-liens {
-  margin: 0 0 8px;
-  padding-left: 18px;
-  color: var(--texte-doux);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.menu-liens a {
-  color: var(--accent);
-  overflow-wrap: anywhere;
-  text-decoration: none;
-}
-
-.menu-liens a:hover {
-  text-decoration: underline;
-}
-
 .menu-info {
   margin: 2px 0;
   color: var(--texte);
@@ -863,25 +670,6 @@ body {
   background: #e4ebe7;
   color: var(--accent);
 }
-
-.popup-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2px 9px 2px 7px;
-  border-radius: 999px;
-  background: rgb(46 125 91 / 10%);
-  color: #226447;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.popup-type .popup-icone {
-  width: 13px;
-  height: 13px;
-}
-
 .popup-titre {
   margin: 9px 22px 2px 0;
   color: #1f2421;
@@ -1106,15 +894,6 @@ body {
     font-size: 9.5px;
   }
 
-  #filtre-type {
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .menu-segmente button {
-    padding: 7px 8px;
-  }
-
   #a-propos-ctrl {
     width: 40px;
     height: 40px;
@@ -1141,10 +920,6 @@ body {
     width: calc(100vw - 16px);
     left: 8px;
     top: 8px;
-  }
-
-  .menu-titre {
-    font-size: 13px;
   }
 
   .logos-bas-gauche {
