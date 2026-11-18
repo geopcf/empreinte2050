@@ -9,6 +9,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
 import './a-propos.js'
+import './menu.js'
 import './ajout-evenement.js'
 import { afficherEvenements } from './evenements.js'
 
