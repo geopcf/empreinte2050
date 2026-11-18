@@ -1,3 +1,4 @@
-Titre,type,date,heure,localisation,lieu,inscription_obloigatoire,inscription,presentiel,distanciel,lien_distanciel,précisions
-Présentation du plan climat,Présentation,2026-12-14,18:30,"48.87791473883066, 2.371990811017919",Sous la Coupole. Siège national du PCF. Paris,oui,contact@ecologie.pcf.fr,oui,oui,https://direct.pcf.fr/,
-Ecoute collective Sénart,Ecoute collective,2026-12-14,18:30,"48.62703686454762, 2.5894062482081472",Section PCF Brie Sénart,,,non,oui,,uniquement pouyr du test
+type,localisation,organisateur,adresse,contact,précisions
+Présentation du plan climat,"48.87791473883066, 2.371990811017919",PCF,Sous la Coupole. Siège national du PCF. Paris,contact@ecologie.pcf.fr,
+Ecoute collective,"48.11426472531402, -1.680210017263141",Section de Rennes,,,
+Ecoute collective,"43.599146433467865, 1.440737472799538",Section de Toulouse,,,

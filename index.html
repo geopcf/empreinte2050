@@ -42,41 +42,43 @@
       </a>
     </div>
 
-    <!-- Menu de filtres -->
-    <div id="menu" class="menu" role="group" aria-label="Filtres des événements">
-      <div class="menu-entete">
-        <h1 class="menu-titre">
-          Événements organisés autour du Plan Climat
-          <span class="menu-titre-accent">Empreinte 2050</span>
-        </h1>
-        <p class="menu-sous-titre">
-          Version actualisée —
-          <span class="menu-mois-fort">décembre 2026</span>
-        </p>
+    <!-- Menu d'annonce -->
+    <div id="menu" class="menu" role="region" aria-label="Plan Climat Empreinte 2050">
+      <p class="menu-sous-titre-stylise" style="font-size: 13px; margin: 0; line-height: 1.1; width: 100%; text-align: center;">Plan climat Empreinte 2050</p>
+      <p class="menu-sous-titre-stylise" style="font-size: 9.5px; margin: 0; line-height: 1.1; width: 100%; text-align: center; transform: scaleX(0.75); transform-origin: center;">Sortir des énergies fossiles et s'adapter</p>
+      <img
+        class="menu-visuel"
+        src="/images/empreinte-visuel.png"
+        alt="Empreinte 2050 — Plan climat pour la France"
+        width="260"
+        height="258"
+      />
+      <h1 class="menu-titre-grand">Carte des écoutes collectives</h1>
+      <p class="menu-date-mise-en-evidence">Lundi 14 décembre 2026</p>
+
+      <div
+        id="compte-a-rebours"
+        class="menu-compte-a-rebours"
+        role="timer"
+        aria-live="polite"
+      >
+        <span class="menu-compte-valeur" data-part="jours">--</span>
+        <span class="menu-compte-libelle">j</span>
+        <span class="menu-compte-valeur" data-part="heures">--</span>
+        <span class="menu-compte-libelle">h</span>
+        <span class="menu-compte-valeur" data-part="minutes">--</span>
+        <span class="menu-compte-libelle">min</span>
+        <span class="menu-compte-valeur" data-part="secondes">--</span>
+        <span class="menu-compte-libelle">s</span>
       </div>
 
-      <div class="menu-separateur"></div>
+      <p class="menu-info">📍 Sous la Coupole · Siège national du PCF · Paris. En présence de Fabien Roussel, des rédacteurs du texte, de scientifiques et de syndicalistes.</p>
 
-      <div class="menu-champ">
-        <span class="menu-label" id="menu-periode-label">Période</span>
-        <div class="menu-segmente" role="group" aria-labelledby="menu-periode-label">
-          <button type="button" data-periode="avenir" class="est-actif" aria-pressed="true">
-            À venir
-          </button>
-          <button type="button" data-periode="tous" aria-pressed="false">Tous</button>
-        </div>
+      <div class="menu-actions">
+        <a class="menu-bouton" href="mailto:contact@ecologie.pcf.fr">S'inscrire au présentiel</a>
+        <a class="menu-bouton" href="https://direct.pcf.fr/" target="_blank" rel="noopener noreferrer">Suivre le direct</a>
       </div>
 
-      <div class="menu-champ">
-        <label class="menu-label" for="filtre-type">Type d'événement</label>
-        <select id="filtre-type">
-          <option value="">Tous les événements</option>
-        </select>
-      </div>
-
-      <p id="menu-compteur" class="menu-compteur" role="status" aria-live="polite">
-        Chargement des événements…
-      </p>
 
       <button
         type="button"
@@ -95,7 +97,7 @@
         >
           <path d="M12 5v14M5 12h14" />
         </svg>
-        Ajouter un événement
+        Ajouter une écoute collective
       </button>
     </div>
 
@@ -129,21 +131,29 @@
         <p class="a-propos-intro">
           Le <strong>Plan Climat Empreinte 2050</strong> est la démarche du PCF
           pour répondre à l’urgence climatique et construire une France neutre
-          en carbone à l’horizon 2050.
+          en carbone à l’horizon 2050, en respectant les accords de Paris.
         </p>
 
         <div class="a-propos-stats">
           <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2023</span>
+            <span class="a-propos-stat-libelle">présentation en novembre 2023 de la version préliminaire du plan climat</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">50</span>
+            <span class="a-propos-stat-libelle">auditions avec des représentants du monde du travail, de la science, de l’environnement</span>
+          </div>
+          <div class="a-propos-stat">
             <span class="a-propos-stat-valeur">100+</span>
-            <span class="a-propos-stat-libelle">réunions publiques</span>
+            <span class="a-propos-stat-libelle">réunions publiques partout en France</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2026</span>
+            <span class="a-propos-stat-libelle">présentation de la version enrichie du plan climat</span>
           </div>
           <div class="a-propos-stat">
             <span class="a-propos-stat-valeur">2050</span>
             <span class="a-propos-stat-libelle">neutralité carbone</span>
-          </div>
-          <div class="a-propos-stat">
-            <span class="a-propos-stat-valeur">V2</span>
-            <span class="a-propos-stat-libelle">décembre 2026</span>
           </div>
         </div>
 
@@ -171,31 +181,19 @@
         </a>
 
         <section>
-          <h3>Un constat</h3>
-          <p>
-            Le réchauffement climatique nous impose de sortir des énergies
-            fossiles. Pour y parvenir, il faut doubler la production
-            d’électricité et atteindre une empreinte carbone nulle en 2050.
-          </p>
-        </section>
-
-        <section>
           <h3>La démarche</h3>
           <ol class="a-propos-frise">
             <li>
               <span class="a-propos-frise-date">6 novembre 2023</span>
-              <p>Publication de la V1 du Plan Climat.</p>
+              <p>version préliminaire pour concertation</p>
             </li>
             <li>
               <span class="a-propos-frise-date">2023 — 2026</span>
-              <p>
-                Phase de consultations et de réunions publiques, avec plus de
-                100 réunions publiques organisées.
-              </p>
+              <p>Phase de consultation</p>
             </li>
             <li>
               <span class="a-propos-frise-date">14 décembre 2026</span>
-              <p>Publication de la V2, version actualisée du Plan Climat.</p>
+              <p>version enrichie</p>
             </li>
           </ol>
         </section>
@@ -256,87 +254,33 @@
         <h2 id="ajout-titre" class="a-propos-titre-cache">Ajouter un événement</h2>
 
         <p class="a-propos-intro">
-          Proposez un événement autour du Plan Climat. Le formulaire prépare un
-          courriel à envoyer à l’équipe.
+          Vous êtes une fédération ou une section du PCF et vous souhaitez signaler
+          une écoute collective de la présentation du plan climat le 14 décembre
+          2026, vous êtes au bon endroit. Merci de remplir le formulaire ci-dessous.
         </p>
 
         <form id="form-ajout" class="formulaire-ajout" novalidate>
-          <div class="champ">
-            <label for="champ-titre">Titre de l’événement *</label>
-            <input id="champ-titre" name="titre" type="text" required />
-          </div>
+          <input type="hidden" name="type" value="Ecoute collective" />
 
           <div class="champ">
-            <label for="champ-type">Type d’événement</label>
-            <input id="champ-type" name="type" type="text" list="types-existants" />
-            <datalist id="types-existants"></datalist>
-          </div>
-
-          <div class="champ-groupe">
-            <div class="champ">
-              <label for="champ-date">Date *</label>
-              <input id="champ-date" name="date" type="date" required />
-            </div>
-            <div class="champ">
-              <label for="champ-heure">Heure</label>
-              <input id="champ-heure" name="heure" type="time" />
-            </div>
+            <label for="champ-organisateur">Votre section/fédération</label>
+            <input id="champ-organisateur" name="organisateur" type="text" />
           </div>
 
           <div class="champ">
-            <label for="champ-lieu">Lieu</label>
-            <input id="champ-lieu" name="lieu" type="text" />
+            <label for="champ-lieu">Lieu de l’écoute (adresse)</label>
+            <span class="champ-note">Si l’écoute se fait au domicile de quelqu’un, indiquez seulement le lieu de la ville.</span>
+            <input id="champ-lieu" name="adresse" type="text" />
           </div>
 
           <div class="champ">
-            <label for="champ-localisation">Localisation (latitude, longitude)</label>
-            <input
-              id="champ-localisation"
-              name="localisation"
-              type="text"
-              placeholder="48.8779, 2.3720"
-            />
-          </div>
-
-          <div class="champ-groupe">
-            <div class="champ champ-case">
-              <label for="champ-presentiel">
-                <input id="champ-presentiel" name="presentiel" type="checkbox" />
-                Présentiel
-              </label>
-            </div>
-            <div class="champ champ-case">
-              <label for="champ-distanciel">
-                <input id="champ-distanciel" name="distanciel" type="checkbox" />
-                Distanciel
-              </label>
-            </div>
+            <label for="champ-contact">Contact</label>
+            <input id="champ-contact" name="contact" type="text" />
           </div>
 
           <div class="champ">
-            <label for="champ-lien-distanciel">Lien distanciel</label>
-            <input id="champ-lien-distanciel" name="lien_distanciel" type="url" />
-          </div>
-
-          <div class="champ champ-case">
-            <label for="champ-inscription-obligatoire">
-              <input
-                id="champ-inscription-obligatoire"
-                name="inscription_obloigatoire"
-                type="checkbox"
-              />
-              Inscription obligatoire
-            </label>
-          </div>
-
-          <div class="champ">
-            <label for="champ-inscription">Contact / inscription</label>
-            <input id="champ-inscription" name="inscription" type="text" />
-          </div>
-
-          <div class="champ">
-            <label for="champ-description">Précisions</label>
-            <textarea id="champ-description" name="description" rows="3"></textarea>
+            <label for="champ-precisions">Précisions</label>
+            <textarea id="champ-precisions" name="précisions" rows="3"></textarea>
           </div>
 
           <div class="formulaire-actions">

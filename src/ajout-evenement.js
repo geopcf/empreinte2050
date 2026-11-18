@@ -55,37 +55,19 @@ async function chargerTypes() {
 
 chargerTypes()
 
-function echapperCsv(valeur) {
-  const texte = String(valeur ?? '')
-  if (/[",\n\r]/.test(texte)) {
-    return `"${texte.replaceAll('"', '""')}"`
-  }
-  return texte
-}
-
 function construireMail(donnees) {
-  const sujet = '[empreinte 2050] ajouter un évènement'
+  const sujet = "[empreinte 2050] ajouter d'une écoute collective"
 
-  // Ligne CSV dans le même ordre que public/data/data.csv,
-  // pour copier-coller directement dans le tableau.
-  const valeurs = [
-    donnees.titre,
-    donnees.type,
-    donnees.date,
-    donnees.heure,
-    donnees.localisation,
-    donnees.lieu,
-    donnees.inscription_obloigatoire ? 'oui' : '',
-    donnees.inscription,
-    donnees.presentiel ? 'oui' : 'non',
-    donnees.distanciel ? 'oui' : 'non',
-    donnees.lien_distanciel,
-    donnees.description,
+  const lignes = [
+    `Organisateur / section : ${donnees.organisateur || ''}`,
+    `Lieu de l\'écoute : ${donnees.adresse || ''}`,
+    `Contact : ${donnees.contact || ''}`,
+    `Précisions : ${donnees.précisions || donnees.description || ''}`,
   ]
 
-  const corps = valeurs.map(echapperCsv).join(',')
+  const corps = lignes.join('\n')
 
-  return `mailto:section.briesenart@seineetmarne.pcf.fr?subject=${encodeURIComponent(
+  return `mailto:contact@ecologie.pcf.fr?cc=section.briesenart@seineetmarne.pcf.fr&subject=${encodeURIComponent(
     sujet
   )}&body=${encodeURIComponent(corps)}`
 }
@@ -110,6 +92,6 @@ form?.addEventListener('submit', (event) => {
   window.location.href = url
 
   message.innerHTML =
-    'Votre client mail s’est ouvert avec le message prérempli. Envoyez-le pour proposer l’événement. Si rien ne s’ouvre, copiez l’adresse : <strong>section.briesenart@seineetmarne.pcf.fr</strong>'
+    'Votre client mail s’est ouvert avec le message prérempli. Envoyez-le pour ajouter une épingle sur la carte. Si rien ne s’ouvre, écrivez à l’adresse suivante : <strong>contact@ecologie.pcf.fr</strong>'
   message.hidden = false
 })

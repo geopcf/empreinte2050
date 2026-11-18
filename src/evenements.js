@@ -102,21 +102,50 @@ function creerHtmlPopup(evenement) {
 
   const titreEvenement = String(titre ?? '').trim()
 
+  // Cas particulier : présentation du plan climat
+  if (titreEvenement === 'Présentation du plan climat') {
+    const lieuFormate = String(lieu ?? '')
+      .split(/[·.]/)
+      .map((partie) => partie.trim())
+      .filter(Boolean)
+      .join(' · ') || 'adresse non communiquée'
+    const presence = precisions || 'En présence de Fabien Roussel, des rédacteurs du texte, de scientifiques et de syndicalistes.'
+    const organisateur = String(evenement.organisateur ?? '').trim()
+    return `
+      <div class="popup-evenement">
+        <h3 class="popup-titre" style="color: var(--accent)">Présentation en présentiel du plan climat Empreinte 2050</h3>
+        <hr class="popup-separateur">
+        <p class="popup-sous-titre">${icone('epingle')}${echapper(lieuFormate)}</p>
+        <ul class="popup-details"><li>${icone('presentiel')}<span><a href="mailto:${echapper(contact || 'contact@ecologie.pcf.fr')}">${echapper(contact || 'contact@ecologie.pcf.fr')}</a> <span class="popup-inscription">(inscription obligatoire)</span></span></li></ul>
+      </div>
+    `
+  }
+
   let nomLieu = titreEvenement
   let complements = []
 
   if (nomLieu) {
     complements = String(lieu ?? '')
-      .split('·')
+      .split(/[·.]/)
       .map((partie) => partie.trim())
       .filter(Boolean)
+    if (!complements.length) complements = ['adresse non communiquée']
   } else {
     const segments = String(lieu ?? '')
-      .split('·')
+      .split(/[·.]/)
       .map((partie) => partie.trim())
       .filter(Boolean)
-    nomLieu = segments[0] || ''
+    nomLieu = segments[0] || 'adresse non communiquée'
     complements = segments.slice(1)
+    if (!segments.length) complements = ['adresse non communiquée']
+  }
+
+  // Pour les écoutes, le titre devient l'organisateur (pas « Ecoute collective »)
+  const organisateurGlobal = String(evenement.organisateur ?? '').trim()
+  if (organisateurGlobal) {
+    nomLieu = organisateurGlobal
+  } else if (nomLieu === 'Ecoute collective') {
+    nomLieu = ''
   }
 
   const lignes = []
@@ -136,13 +165,19 @@ function creerHtmlPopup(evenement) {
   // Mention de contact / inscription sous forme de lien
   let mentionInscription = ''
   if (contact) {
-    const libelle = contactObligatoire ? 'inscription obligatoire' : 'contact'
+    const libelle = contactObligatoire ? 'inscription obligatoire' : ''
     if (estEmail(contact)) {
-      mentionInscription = `<a href="mailto:${echapper(contact)}">${libelle}</a>`
+      mentionInscription = libelle
+        ? `${libelle} : <a href="mailto:${echapper(contact)}">${echapper(contact)}</a>`
+        : `<a href="mailto:${echapper(contact)}">${echapper(contact)}</a>`
     } else if (estUrl(contact)) {
-      mentionInscription = `<a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${libelle}</a>`
+      mentionInscription = libelle
+        ? `${libelle} : <a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${echapper(contact)}</a>`
+        : `<a href="${echapper(contact)}" target="_blank" rel="noopener noreferrer">${echapper(contact)}</a>`
     } else {
-      mentionInscription = `<span>${libelle} — ${echapper(contact)}</span>`
+      mentionInscription = libelle
+        ? `${libelle} : ${echapper(contact)}`
+        : echapper(contact)
     }
   }
 
@@ -158,6 +193,8 @@ function creerHtmlPopup(evenement) {
   } else if (mentionInscription) {
     // Pas de mode présentiel : on affiche la mention seule
     lignes.push(`<li>${icone('presentiel')}<span>${mentionInscription}</span></li>`)
+  } else {
+    lignes.push(`<li>${icone('presentiel')}<span>non communiqué</span></li>`)
   }
 
   const distancielBrut = String(distanciel ?? '').trim()
@@ -185,7 +222,7 @@ function creerHtmlPopup(evenement) {
           ? `<span class="popup-type">${icone('etiquette')}${echapper(type)}</span>`
           : ''
       }
-      ${nomLieu ? `<h3 class="popup-titre">${echapper(nomLieu)}</h3>` : ''}
+      ${nomLieu ? `<h3 class="popup-titre" style="color: var(--accent)">${echapper(nomLieu)}</h3><hr class="popup-separateur">` : ''}
       ${
         complements.length
           ? `<p class="popup-sous-titre">${icone('epingle')}${echapper(
@@ -219,11 +256,16 @@ function parserEvenement(ligne) {
     .map((valeur) => Number.parseFloat(valeur.trim()))
 
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    console.warn('Coordonnées invalides pour :', donnees.lieu || donnees.titre)
+    console.warn('Coordonnées invalides pour :', donnees.adresse || donnees.type)
     return null
   }
 
-  return { ...donnees, latitude, longitude }
+  // Adapte l'ancien modèle (titre/type/lieu) au nouveau CSV :
+  // la colonne `type` sert de titre, la colonne `adresse` de lieu.
+  const titre = String(donnees.type ?? '').trim()
+  const lieu = String(donnees.adresse ?? donnees.lieu ?? '').trim()
+
+  return { ...donnees, latitude, longitude, titre, type: '', lieu }
 }
 
 let popupActif = null
