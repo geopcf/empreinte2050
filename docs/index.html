@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Empreinte 2050 — Carte</title>
+    <script type="module" crossorigin src="/empreinte2050/assets/index-DYG5aU4r.js"></script>
+    <link rel="stylesheet" crossorigin href="/empreinte2050/assets/index-Ch7CNPgs.css">
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Logos en bas à gauche -->
+    <div class="logos-bas-gauche">
+      <a
+        class="logo-lien"
+        href="https://www.pcf.fr/commission_ecologie"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Commission Écologie du PCF"
+      >
+        <img
+          class="logo-pcf"
+          src="/empreinte2050/images/logo.jpeg"
+          alt="PCF — Commission Écologie"
+          width="64"
+          height="64"
+        />
+      </a>
+      <a
+        class="logo-lien"
+        href="https://revue-progressistes.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Revue Progressistes"
+      >
+        <img
+          class="logo-progressistes"
+          src="/empreinte2050/images/progressistes.webp"
+          alt="Revue Progressistes"
+          width="64"
+          height="64"
+        />
+      </a>
+    </div>
+
+    <!-- Menu d'annonce -->
+    <div id="menu" class="menu" role="region" aria-label="Plan Climat Empreinte 2050">
+      <p class="menu-sous-titre-stylise" style="font-size: 13px; margin: 0; line-height: 1.1; width: 100%; text-align: center;">Plan climat Empreinte 2050</p>
+      <p class="menu-sous-titre-stylise" style="font-size: 9.5px; margin: 0; line-height: 1.1; width: 100%; text-align: center; transform: scaleX(0.75); transform-origin: center;">Sortir des énergies fossiles et s'adapter</p>
+      <img
+        class="menu-visuel"
+        src="/empreinte2050/images/empreinte-visuel.png"
+        alt="Empreinte 2050 — Plan climat pour la France"
+        width="260"
+        height="258"
+      />
+      <h1 class="menu-titre-grand">Carte des écoutes collectives</h1>
+      <p class="menu-date-mise-en-evidence">Lundi 14 décembre 2026</p>
+
+      <div
+        id="compte-a-rebours"
+        class="menu-compte-a-rebours"
+        role="timer"
+        aria-live="polite"
+      >
+        <span class="menu-compte-valeur" data-part="jours">--</span>
+        <span class="menu-compte-libelle">j</span>
+        <span class="menu-compte-valeur" data-part="heures">--</span>
+        <span class="menu-compte-libelle">h</span>
+        <span class="menu-compte-valeur" data-part="minutes">--</span>
+        <span class="menu-compte-libelle">min</span>
+        <span class="menu-compte-valeur" data-part="secondes">--</span>
+        <span class="menu-compte-libelle">s</span>
+      </div>
+
+      <p class="menu-info">📍 Sous la Coupole · Siège national du PCF · Paris. En présence de Fabien Roussel, des rédacteurs du texte, de scientifiques et de syndicalistes.</p>
+
+      <div class="menu-actions">
+        <a class="menu-bouton" href="mailto:contact@ecologie.pcf.fr">S'inscrire au présentiel</a>
+        <a class="menu-bouton" href="https://direct.pcf.fr/" target="_blank" rel="noopener noreferrer">Suivre le direct</a>
+      </div>
+
+
+      <button
+        type="button"
+        id="ouvrir-ajout"
+        class="menu-bouton"
+      >
+        <svg
+          class="menu-bouton-icone"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        Ajouter une écoute collective
+      </button>
+    </div>
+
+    <!-- Bouton d'information (remplace le contrôle d'attribution MapLibre) -->
+    <button
+      id="a-propos-ctrl"
+      type="button"
+      title="À propos du Plan Climat Empreinte 2050"
+      aria-label="À propos du Plan Climat Empreinte 2050"
+      aria-haspopup="dialog"
+    >
+      i
+    </button>
+
+    <!-- Panneau latéral -->
+    <dialog id="a-propos" class="a-propos" aria-labelledby="a-propos-titre">
+      <button type="button" class="a-propos-fermer" aria-label="Fermer le panneau">
+        ×
+      </button>
+
+      <div class="a-propos-corps">
+        <h2 id="a-propos-titre" class="a-propos-titre-cache">Plan Climat Empreinte 2050</h2>
+        <img
+          class="a-propos-visuel"
+          src="/empreinte2050/images/empreinte-visuel.png"
+          alt="Empreinte 2050 — Plan climat pour la France"
+          width="362"
+          height="360"
+        />
+
+        <p class="a-propos-intro">
+          Le <strong>Plan Climat Empreinte 2050</strong> est la démarche du PCF
+          pour répondre à l’urgence climatique et construire une France neutre
+          en carbone à l’horizon 2050, en respectant les accords de Paris.
+        </p>
+
+        <div class="a-propos-stats">
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2023</span>
+            <span class="a-propos-stat-libelle">présentation en novembre 2023 de la version préliminaire du plan climat</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">50</span>
+            <span class="a-propos-stat-libelle">auditions avec des représentants du monde du travail, de la science, de l’environnement</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">100+</span>
+            <span class="a-propos-stat-libelle">réunions publiques partout en France</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2026</span>
+            <span class="a-propos-stat-libelle">présentation de la version enrichie du plan climat</span>
+          </div>
+          <div class="a-propos-stat">
+            <span class="a-propos-stat-valeur">2050</span>
+            <span class="a-propos-stat-libelle">neutralité carbone</span>
+          </div>
+        </div>
+
+        <a
+          class="a-propos-action a-propos-action-secondaire"
+          href="https://www.pcf.fr/plan_climat_du_pcf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Découvrir le Plan Climat sur le site du PCF
+          <svg
+            class="a-propos-action-icone"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M7 17 17 7" />
+            <path d="M7 7h10v10" />
+          </svg>
+        </a>
+
+        <section>
+          <h3>La démarche</h3>
+          <ol class="a-propos-frise">
+            <li>
+              <span class="a-propos-frise-date">6 novembre 2023</span>
+              <p>version préliminaire pour concertation</p>
+            </li>
+            <li>
+              <span class="a-propos-frise-date">2023 — 2026</span>
+              <p>Phase de consultation</p>
+            </li>
+            <li>
+              <span class="a-propos-frise-date">14 décembre 2026</span>
+              <p>version enrichie</p>
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Liens utiles</h3>
+          <ul class="a-propos-liens">
+            <li>
+              <a href="https://www.pcf.fr/commission_ecologie" target="_blank" rel="noopener noreferrer">
+                Commission Écologie du PCF
+              </a>
+            </li>
+            <li>
+              <a href="https://revue-progressistes.org/" target="_blank" rel="noopener noreferrer">
+                Revue Progressistes
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="a-propos-credits">
+          <h3>Crédits</h3>
+          <p>
+            Réalisation : Nicolas Lambert, 2026 —
+            <a
+              href="https://github.com/neocarto/empreinte2050"
+              target="_blank"
+              rel="noopener noreferrer"
+              >code source</a
+            >.<br />
+            Fond de carte : ©
+            <a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer"
+              >OpenFreeMap</a
+            >
+            /
+            <a href="https://openmaptiles.org/" target="_blank" rel="noopener noreferrer"
+              >OpenMapTiles</a
+            >
+            /
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+              >OpenStreetMap</a
+            >.
+          </p>
+        </section>
+      </div>
+    </dialog>
+
+    <!-- Panneau d'ajout d'événement -->
+    <dialog id="ajout-evenement" class="a-propos" aria-labelledby="ajout-titre">
+      <button type="button" class="a-propos-fermer" aria-label="Fermer le panneau">
+        ×
+      </button>
+
+      <div class="a-propos-corps">
+        <h2 id="ajout-titre" class="a-propos-titre-cache">Ajouter un événement</h2>
+
+        <p class="a-propos-intro">
+          Vous êtes une fédération ou une section du PCF et vous souhaitez signaler
+          une écoute collective de la présentation du plan climat le 14 décembre
+          2026, vous êtes au bon endroit. Merci de remplir le formulaire ci-dessous.
+        </p>
+
+        <form id="form-ajout" class="formulaire-ajout" novalidate>
+          <input type="hidden" name="type" value="Ecoute collective" />
+
+          <div class="champ">
+            <label for="champ-organisateur">Votre section/fédération</label>
+            <input id="champ-organisateur" name="organisateur" type="text" />
+          </div>
+
+          <div class="champ">
+            <label for="champ-lieu">Lieu de l’écoute (adresse)</label>
+            <span class="champ-note">Si l’écoute se fait au domicile de quelqu’un, indiquez seulement le lieu de la ville.</span>
+            <input id="champ-lieu" name="adresse" type="text" />
+          </div>
+
+          <div class="champ">
+            <label for="champ-contact">Contact</label>
+            <input id="champ-contact" name="contact" type="text" />
+          </div>
+
+          <div class="champ">
+            <label for="champ-precisions">Précisions</label>
+            <textarea id="champ-precisions" name="précisions" rows="3"></textarea>
+          </div>
+
+          <div class="formulaire-actions">
+            <button type="submit" class="a-propos-action">Envoyer</button>
+            <button
+              type="button"
+              id="annuler-ajout"
+              class="a-propos-action a-propos-action-secondaire"
+            >
+              Annuler
+            </button>
+          </div>
+        </form>
+
+        <p id="ajout-message" class="ajout-message" hidden></p>
+      </div>
+    </dialog>
+
+  </body>
+</html>

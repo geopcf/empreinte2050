@@ -4,6 +4,32 @@ Carte [MapLibre GL JS](https://maplibre.org/) centrée sur la France, servie par
 
 Le fond de carte vectoriel provient d'[OpenFreeMap](https://openfreemap.org) (gratuit, sans clé d'API).
 
+## Le projet
+
+Le **Plan Climat Empreinte 2050** est la démarche du PCF pour répondre à l'urgence
+climatique et construire une France neutre en carbone à l'horizon 2050, en
+respectant les accords de Paris.
+
+Quelques repères :
+
+- **2023** — présentation en novembre 2023 de la version préliminaire du plan climat
+- **50** auditions avec des représentants du monde du travail, de la science, de l'environnement
+- **100+** réunions publiques partout en France
+- **2026** — présentation de la version enrichie du plan climat
+- **2050** — neutralité carbone
+
+La démarche, en trois temps :
+
+1. **6 novembre 2023** — version préliminaire pour concertation
+2. **2023 — 2026** — phase de consultation
+3. **14 décembre 2026** — version enrichie
+
+Liens utiles : [Commission Écologie du PCF](https://www.pcf.fr/commission_ecologie),
+[Revue Progressistes](https://revue-progressistes.org/),
+[Plan Climat sur le site du PCF](https://www.pcf.fr/plan_climat_du_pcf).
+
+Réalisation : Nicolas Lambert, 2026.
+
 ## Démarrer
 
 ```bash
@@ -16,7 +42,7 @@ Puis ouvrir l'URL affichée (par défaut http://localhost:5173).
 ## Build
 
 ```bash
-npm run build     # génère dist/
+npm run build     # génère docs/
 npm run preview   # sert le build localement
 ```
 

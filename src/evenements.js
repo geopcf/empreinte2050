@@ -121,7 +121,7 @@ let popupActif = null
  * Charge public/data/data.csv et affiche une épingle par événement.
  * Retourne la liste { evenement, marker }.
  */
-export async function afficherEvenements(map, url = '/data/data.csv') {
+export async function afficherEvenements(map, url = `${import.meta.env.BASE_URL}data/data.csv`) {
   const reponse = await fetch(url)
   if (!reponse.ok) {
     throw new Error(`Impossible de charger ${url} (${reponse.status})`)
@@ -141,7 +141,7 @@ export async function afficherEvenements(map, url = '/data/data.csv') {
     element.title = evenement.titre || evenement.lieu || 'Événement'
 
     const image = document.createElement('img')
-    image.src = '/images/pin.svg'
+    image.src = `${import.meta.env.BASE_URL}images/pin.svg`
     image.alt = evenement.lieu || 'Événement'
     image.width = 30
     image.height = 40
