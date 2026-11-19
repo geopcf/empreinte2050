@@ -856,11 +856,19 @@ body {
 @media (max-width: 640px) {
   #menu {
     width: min(260px, calc(100vw - 20px));
+    max-height: calc(
+      100dvh - 20px - var(--safe-area-top) - var(--safe-area-bottom)
+    );
+    overflow-y: auto;
     font-size: 12.5px;
   }
 
+  #menu > * {
+    flex-shrink: 0;
+  }
+
   .menu-visuel {
-    display: none;
+    max-width: 150px;
   }
 
   .logo-pcf {
