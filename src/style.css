@@ -718,7 +718,7 @@ body {
   align-items: center;
   gap: 8px;
   min-width: 0;
-  color: #3f4742;
+  color: var(--texte-doux);
   font-size: 12.5px;
   line-height: 1.4;
 }
